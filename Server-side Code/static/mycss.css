@@ -1,0 +1,12 @@
+body {
+    text-align: center;
+}
+
+p {
+    font-size: 300%;
+}
+
+div {
+    margin-left: auto;
+    margin-right: auto
+}
