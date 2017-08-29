@@ -3,14 +3,14 @@ $def with(name)
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>hello my car</title>
+        <title>hello PiCar</title>
         <script type="text/javascript" src="../static/jquery-3.1.1.min.js"></script>
         <script type="text/javascript" src="../static/mycode.js"></script>
 
         <link href="../static/mycss.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <p>Hello My Car!</p>
+        <p>Hello PiCar!</p>
         <hr/>
         <div>
             <img src="../static/arrow_up.png" alt="up" dir="1" />
@@ -23,5 +23,9 @@ $def with(name)
         <div>
             <img src="../static/arrow_down.png" alt="down" dir="2" />
         </div>
+		<div><input type="number" id="angle" value="0"></div>
+		<div>
+			<img id="my_img" src="http://192.168.199.199:8080/?action=stream"/>
+		</div>
     </body>
 </html>
