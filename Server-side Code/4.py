@@ -21,11 +21,14 @@ class index:
          return index('car')
 
     def POST(self):
-         data = web.data()
+         data = web.input()
          print(data)
-         dir = int(data[-1])
+         dir = int(data.get('dir'))
+         angle = int(data.get('angle'))
          print(dir)
-         bus.write_byte(address, dir)
+         print(angle)
+         #bus.write_byte(address, dir)
+         bus.write_byte_data(address, dir, angle)
          index = web.template.frender('templates/index.html')
          return index(data)
 
