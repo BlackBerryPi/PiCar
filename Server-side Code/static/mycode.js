@@ -3,9 +3,9 @@ jQuery(document).ready(function(){
         jQuery.post({
             url: "/",
             data: {
-				dir: jQuery(this).attr("dir"),
-				angle: $("#angle").val()
-			},
+			dir: jQuery(this).attr("dir"),
+			angle: $("#angle").val()
+	    },
             success: function(result) {
             }
         });
@@ -14,9 +14,9 @@ jQuery(document).ready(function(){
         jQuery.post({
             url: "/",
             data: {
-				dir: 6,
-				angle: $("#angle").val()
-			},
+			dir: 6,
+			angle: $("#angle").val()
+	    },
             success: function(result) {
             }
         });
