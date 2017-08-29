@@ -4,9 +4,13 @@
 
 #include "AFMotor.h"
 #include <Wire.h>
+#include <Servo.h>
+
+Servo servo_0;
 
 #define SLAVE_ADDRESS 0x04
-int number = 0;
+int button = 0;
+int angle = 0;
 int state = 0;
 
 AF_DCMotor motor_1(1);
@@ -19,31 +23,31 @@ void loop() {
 }
 
 void go() {
-  motor_1.run(FORWARD);
-  motor_2.run(FORWARD);
-  motor_3.run(FORWARD);
-  motor_4.run(FORWARD);
-}
-
-void back() {
   motor_1.run(BACKWARD);
   motor_2.run(BACKWARD);
   motor_3.run(BACKWARD);
   motor_4.run(BACKWARD);
 }
 
-void left() {
+void back() {
   motor_1.run(FORWARD);
-  motor_2.run(BACKWARD);
-  motor_3.run(BACKWARD);
+  motor_2.run(FORWARD);
+  motor_3.run(FORWARD);
   motor_4.run(FORWARD);
 }
 
 void right() {
-  motor_1.run(BACKWARD);
-  motor_2.run(FORWARD);
+  motor_1.run(FORWARD);
+  motor_2.run(BACKWARD);
   motor_3.run(FORWARD);
   motor_4.run(BACKWARD);
+}
+
+void left() {
+  motor_1.run(BACKWARD);
+  motor_2.run(FORWARD);
+  motor_3.run(BACKWARD);
+  motor_4.run(FORWARD);
 }
 
 void stop() {
@@ -57,11 +61,18 @@ void stop() {
 void receiveData(int byteCount) {
 
   while (Wire.available()) {
-    number = Wire.read();
-    Serial.print("data received: ");
-    Serial.println(number);
+    //Wire.requestFrom(0x04,2);
+    button = Wire.read();
+    Serial.print("Button: ");
+    Serial.println(button);
+    angle = Wire.read();
+    Serial.print("angle: ");
+    Serial.println(angle);
 
-    switch (number) {
+    servo_0.write(angle);
+    delay(angle);
+
+    switch (button) {
       case 1:
         go();
         break;
@@ -74,8 +85,10 @@ void receiveData(int byteCount) {
       case 4:
         right();
         break;
-      default:
+      case 5:
         stop();
+        break;
+      default:
         break;
     }
   }
@@ -83,7 +96,7 @@ void receiveData(int byteCount) {
 
 // callback for sending data
 void sendData() {
-  Wire.write(number);
+  Wire.write(button);
 }
 
 void setup() {
@@ -95,6 +108,9 @@ void setup() {
   // define callbacks for i2c communication
   Wire.onReceive(receiveData);
   Wire.onRequest(sendData);
+
+  // attaches the servo on pin 9 to the servo object
+  servo_0.attach(9);
 
   Serial.println("Ready!");
   Serial.println("Motor test!");
@@ -110,4 +126,3 @@ void setup() {
   motor_3.run(RELEASE);
   motor_4.run(RELEASE);
 }
-
